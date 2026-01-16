@@ -1,11 +1,21 @@
 ---
 name: modelscope-image-gen
 description: 使用 ModelScope Z-Image-Turbo 模型快速生成 AI 图像。支持中英文提示词，10-30 秒生成高质量图片。当用户需要创建图像、生成视觉内容或需要 AI 插图时使用此技能。
+execution_instructions: |
+  ⚠️ 重要执行要求：
+  1. 必须实际执行bash命令调用API，不能仅描述流程
+  2. 用户的完整提示词必须准确传递给API（不修改、不简化）
+  3. 必须循环轮询任务状态直到完成（最多60秒）
+  4. 必须实际下载图像文件并使用Read工具显示
+  5. 绝不能返回示例图片或固定图片
+  6. 如果API调用失败，必须向用户显示完整错误信息
 ---
 
 # ModelScope AI 图像生成器
 
 使用 ModelScope 的 **Z-Image-Turbo** 模型从文本描述生成 AI 图像 - 快速、高质量的文本到图像 AI。
+
+⚠️ **执行原则**：此技能要求实际执行bash命令调用ModelScope API，而不是描述流程或返回示例图片。
 
 ## 技能功能
 
@@ -92,36 +102,137 @@ Z-Image-Turbo 模型同时支持：
 - 🇨🇳 **中文**："生成一张金色的猫的图片"
 - 🇺🇸 **英文**："Generate a picture of a golden cat"
 
-## 工作流程
+## 执行工作流程（必须严格遵守）
 
-当用户请求生成图像时：
+⚠️ **重要**：当用户请求生成图像时，你**必须**实际执行以下bash命令来调用API，而不是仅描述流程。
 
-1. **检查配置**
-   - 在技能目录查找 `config.json`
-   - 验证 `api_key` 字段存在且不为空
-   - 如果缺失或无效，要求用户配置
+### 步骤 1：读取配置
 
-2. **处理请求**
-   - 从用户提示词中提取图像描述
-   - 识别任何风格关键词或规格
-   - 准备 API 请求
+```bash
+SKILL_DIR="$(dirname "$(find ~/.claude/skills -name 'SKILL.md' -path '*/modelscope-image-gen/*' | head -1)")"
+CONFIG_FILE="$SKILL_DIR/config.json"
+```
 
-3. **生成图像**
-   - 使用提示词调用 ModelScope API
-   - 使用异步模式以获得更好性能
-   - 轮询完成状态（通常 10-30 秒）
-   - 优雅地处理任何错误
+检查API密钥是否存在：
+```bash
+if [ ! -f "$CONFIG_FILE" ]; then
+  echo "错误：配置文件不存在"
+  exit 1
+fi
 
-4. **保存结果**
-   - 下载生成的图像
-   - 使用描述性文件名保存到用户的 vault
-   - 格式：`{描述}-{时间戳}.jpg`
-   - 默认位置：`./generated-images/`
+API_KEY=$(grep -o '"api_key":[[:space:]]*"[^"]*"' "$CONFIG_FILE" | cut -d'"' -f4)
+if [ "$API_KEY" = "YOUR_MODELSCOPE_API_KEY_HERE" ] || [ -z "$API_KEY" ]; then
+  echo "错误：API密钥未配置"
+  exit 1
+fi
+```
 
-5. **报告成功**
-   - 告知用户图像保存位置
-   - 提供生成详情（模型、时间等）
-   - 询问是否需要生成更多或优化结果
+### 步骤 2：提交生成任务
+
+⚠️ **必须使用Bash工具实际执行以下命令**：
+
+```bash
+# 从用户输入提取提示词（$PROMPT）
+PROMPT="用户的提示词内容"
+
+# 提交任务
+RESPONSE=$(curl -s -X POST "https://api-inference.modelscope.cn/v1/images/generations" \
+  -H "Authorization: Bearer $API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "X-ModelScope-Async-Mode: true" \
+  -d "{\"model\": \"Tongyi-MAI/Z-Image-Turbo\", \"prompt\": \"$PROMPT\"}")
+
+# 提取task_id
+TASK_ID=$(echo "$RESPONSE" | grep -o '"task_id":"[^"]*"' | cut -d'"' -f4)
+
+if [ -z "$TASK_ID" ]; then
+  echo "错误：任务提交失败"
+  echo "$RESPONSE"
+  exit 1
+fi
+
+echo "任务ID: $TASK_ID"
+```
+
+### 步骤 3：轮询任务状态（必须循环执行）
+
+⚠️ **必须实际循环轮询，直到任务完成**：
+
+```bash
+# 轮询状态（最多60秒）
+MAX_ATTEMPTS=12
+ATTEMPT=0
+
+while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
+  sleep 5
+  ATTEMPT=$((ATTEMPT + 1))
+
+  STATUS_RESPONSE=$(curl -s "https://api-inference.modelscope.cn/v1/tasks/$TASK_ID" \
+    -H "Authorization: Bearer $API_KEY" \
+    -H "Content-Type: application/json" \
+    -H "X-ModelScope-Task-Type: image_generation")
+
+  TASK_STATUS=$(echo "$STATUS_RESPONSE" | grep -o '"task_status":"[^"]*"' | cut -d'"' -f4)
+
+  if [ "$TASK_STATUS" = "SUCCEED" ]; then
+    IMAGE_URL=$(echo "$STATUS_RESPONSE" | grep -o '"output_images":\["[^"]*"' | cut -d'"' -f4)
+    echo "图像URL: $IMAGE_URL"
+    break
+  elif [ "$TASK_STATUS" = "FAILED" ]; then
+    echo "错误：图像生成失败"
+    echo "$STATUS_RESPONSE"
+    exit 1
+  fi
+
+  echo "状态: $TASK_STATUS ($ATTEMPT/$MAX_ATTEMPTS)"
+done
+```
+
+### 步骤 4：下载并保存图像
+
+⚠️ **必须实际下载图像文件**：
+
+```bash
+# 创建输出目录
+OUTPUT_DIR="./generated-images"
+mkdir -p "$OUTPUT_DIR"
+
+# 生成文件名
+TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+SAFE_PROMPT=$(echo "$PROMPT" | tr ' ' '-' | cut -c1-20)
+OUTPUT_FILE="$OUTPUT_DIR/${SAFE_PROMPT}-${TIMESTAMP}.jpg"
+
+# 下载图像
+curl -s -o "$OUTPUT_FILE" "$IMAGE_URL"
+
+if [ -f "$OUTPUT_FILE" ] && [ -s "$OUTPUT_FILE" ]; then
+  echo "✅ 图像已生成！"
+  echo "📁 保存位置：$OUTPUT_FILE"
+  echo "📝 提示词：$PROMPT"
+else
+  echo "错误：图像下载失败"
+  exit 1
+fi
+```
+
+### 步骤 5：显示图像
+
+使用Read工具读取并显示生成的图像：
+```
+Read "$OUTPUT_FILE"
+```
+
+## 执行检查清单
+
+在执行图像生成时，确保：
+
+- ✅ 使用Bash工具实际执行curl命令（不是仅描述）
+- ✅ 提示词必须准确传递给API（使用用户的原始输入）
+- ✅ 循环轮询直到状态为SUCCEED或FAILED
+- ✅ 实际下载图像文件到本地
+- ✅ 使用Read工具显示生成的图像
+- ❌ 不要返回示例图片或固定图片
+- ❌ 不要仅描述流程而不执行
 
 ## API 集成
 
@@ -433,6 +544,7 @@ Z-Image-Turbo 模型无法生成图像。
 
 ---
 
-**版本**：1.0.0
+**版本**：1.1.0
 **最后更新**：2026-01-16
 **模型**：Tongyi-MAI/Z-Image-Turbo
+**重要更新**：修复了API调用问题，添加了明确的执行指令

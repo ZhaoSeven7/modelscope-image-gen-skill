@@ -37,7 +37,7 @@ Choose your installation method:
 **Simply tell Claude:**
 
 ```
-请帮我安装 modelscope-image-gen-skill，https://github.com/ZhaoSeven7/modelscope-image-gen-skill
+请帮我安装 modelscope-image-gen-skill，地址为https://github.com/ZhaoSeven7/modelscope-image-gen-skill
 我的API密钥是ms-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ```
 
@@ -154,6 +154,30 @@ Chinese also works:
 生成一张金色的猫的图片
 ```
 
+## 📝 Changelog
+
+### v1.1.0 (2026-01-16) - Critical Bug Fix
+
+**🐛 Bug Fix**: Fixed issue where the skill returned a fixed image instead of actually calling the API.
+
+**Changes**:
+- Added `execution_instructions` field to YAML frontmatter for explicit AI behavior
+- Rewrote "Workflow" section as "Execution Workflow" with executable bash commands
+- Added execution checklist to ensure API is actually called
+- Fixed prompt handling to use user's exact input without modification
+
+**If you installed v1.0.0**, please update to this version:
+1. Locate your skill directory: `~/.claude/skills/modelscope-image-gen/`
+2. Replace `SKILL.md` with the new version
+3. Or reinstall using the AI one-click installation method
+
+**How to verify the fix**:
+After updating, try generating an image with a specific prompt like "generate a red car". The AI should:
+- Execute actual curl commands (not just describe them)
+- Show polling progress
+- Download and display the generated image
+- The image should match your prompt (red car), not a fixed image
+
 ## 📁 Project Structure
 
 ```
@@ -256,7 +280,7 @@ MIT License - Free to use and modify
 **直接告诉 Claude**：
 
 ```
-请帮我安装 modelscope-image-gen-skill，https://github.com/ZhaoSeven7/modelscope-image-gen-skill
+请帮我安装 modelscope-image-gen-skill，地址为https://github.com/ZhaoSeven7/modelscope-image-gen-skill
 我的API密钥是ms-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ```
 
@@ -266,7 +290,7 @@ MIT License - Free to use and modify
 
 #### 📋 给 AI 看的技术说明（必读）
 
-请按照以下步骤安装 modelscope-image-gen-skill：
+Claude，请按照以下步骤安装 modelscope-image-gen 技能：
 
 **1. 下载项目**：
 ```
@@ -279,6 +303,7 @@ https://github.com/ZhaoSeven7/modelscope-image-gen-skill
 modelscope-image-gen-skill/
 ├── SKILL.md              # Claude 技能定义
 ├── config.json           # 配置文件
+├── config.example.json   # 配置模板
 ├── README.md             # 文档说明
 └── LICENSE
 ```
@@ -293,7 +318,10 @@ modelscope-image-gen-skill/
 在 `~/.claude/skills/modelscope-image-gen/config.json` 中，将：
 `YOUR_MODELSCOPE_API_KEY_HERE` 替换为用户的 API 密钥
 
-**5. 报告完成**：
+**5. 验证安装**：
+检查文件是否在正确的位置，配置是否有效。
+
+**6. 报告完成**：
 确认安装成功并显示文件结构。
 
 > 💡 **注意**：项目使用扁平结构，SKILL.md 在根目录，不在子文件夹中。
@@ -369,6 +397,30 @@ nano ~/.claude/skills/modelscope-image-gen/config.json
 ```
 Generate a picture of a golden cat
 ```
+
+## 📝 更新日志
+
+### v1.1.0 (2026-01-16) - 关键 Bug 修复
+
+**🐛 修复内容**：修复了技能返回固定图片而不是实际调用API的问题。
+
+**变更**：
+- 在 YAML frontmatter 中添加 `execution_instructions` 字段，明确AI执行行为
+- 将"工作流程"部分重写为"执行工作流程"，包含可执行的bash命令
+- 添加执行检查清单，确保API被实际调用
+- 修复提示词处理，使用用户的原始输入而不修改
+
+**如果您安装了 v1.0.0**，请更新到此版本：
+1. 找到技能目录：`~/.claude/skills/modelscope-image-gen/`
+2. 用新版本替换 `SKILL.md`
+3. 或使用AI一键安装方法重新安装
+
+**如何验证修复**：
+更新后，尝试使用具体提示词生成图像，如"生成一张红色汽车图片"。AI应该：
+- 执行实际的curl命令（而不是仅描述）
+- 显示轮询进度
+- 下载并显示生成的图像
+- 图像应与您的提示词匹配（红色汽车），而不是固定图片
 
 ## 📁 项目结构
 
