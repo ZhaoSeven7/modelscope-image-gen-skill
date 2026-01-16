@@ -1,8 +1,8 @@
 # 🎨 Claude AI Image Generator
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
 [![Claude](https://img.shields.io/badge/Claude-Skills-blue.svg)](https://claude.ai/)
+
 ---
 
 **[English](#english) | [中文](#中文)**
@@ -34,21 +34,53 @@ Choose your installation method:
 
 ### ⭐ Option A: AI One-Click Installation (Recommended) **EASIEST**
 
-Simply tell Claude:
+**Simply tell Claude:**
 
 ```
-Please help me download and install the modelscope-image-gen skill from:
+请帮我安装 modelscope-image-gen-skill，https://github.com/ZhaoSeven7/modelscope-image-gen-skill
+我的API密钥是ms-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+```
+
+**That's it!** Claude will read the technical instructions below and handle everything.
+
+---
+
+#### 📋 Technical Instructions for AI (Read This)
+
+Claude, please follow these steps to install the modelscope-image-gen skill:
+
+**1. Download the project**:
+```
 https://github.com/ZhaoSeven7/modelscope-image-gen-skill
-
-Then add my ModelScope API key to the config file.
-My API key is: ms-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ```
 
-**That's it!** Claude will handle everything:
-- ✅ Download the project
-- ✅ Install to the correct location
-- ✅ Configure your API key
-- ✅ Verify installation
+**2. Verify project structure**:
+The root directory should contain:
+```
+modelscope-image-gen-skill/
+├── SKILL.md              # Claude skill definition
+├── config.json           # Configuration file
+├── README.md             # Documentation
+└── LICENSE
+```
+
+**3. Install to Claude skills directory**:
+```
+Target: ~/.claude/skills/modelscope-image-gen/
+```
+Copy all skill files (SKILL.md, config.json, config.example.json) to this location.
+
+**4. Configure API key**:
+In `~/.claude/skills/modelscope-image-gen/config.json`, replace:
+`YOUR_MODELSCOPE_API_KEY_HERE` with the user's API key
+
+**5. Verify installation**:
+Check that files are in the correct location and configuration is valid.
+
+**6. Report completion**:
+Confirm installation success and show the file structure.
+
+> 💡 **Note**: The project uses a flat structure with SKILL.md at the root, not in a subfolder.
 
 ### 📦 Option B: Manual Installation (2 Steps)
 
@@ -70,16 +102,17 @@ git clone https://github.com/ZhaoSeven7/modelscope-image-gen-skill.git modelscop
 **For Windows Users** (Claude Code):
 1. Download ZIP from [GitHub](https://github.com/ZhaoSeven7/modelscope-image-gen-skill)
 2. Extract to: `C:\Users\YourUsername\.claude\skills\modelscope-image-gen`
+3. Ensure files are at the root: `SKILL.md`, `config.json`
 
 **For Claude.ai**:
 1. Download ZIP from GitHub
 2. Extract to a folder
 3. Open Claude.ai → Settings → Skills → Upload Custom Skill
-4. Select the extracted `skill` folder
+4. Select all skill files (SKILL.md, config.json) from the extracted folder
 
 **Step 2: Configure**
 
-Open `config.json` and replace `YOUR_MODELSCOPE_API_KEY_HERE` with your API key:
+Open `config.json` (in the installed location) and replace `YOUR_MODELSCOPE_API_KEY_HERE` with your API key:
 
 **Windows**: Right-click config.json → Open with Notepad → Edit → Save
 
@@ -125,10 +158,8 @@ Chinese also works:
 
 ```
 modelscope-image-gen-skill/
-├── skill/
-│   ├── SKILL.md              # Claude skill definition
-│   ├── config.json           # Configuration file (add your API key here)
-│   └── config.example.json   # Configuration template (backup)
+├── SKILL.md                  # Claude skill definition
+├── config.json               # Configuration file (add your API key here)
 ├── README.md                 # This file
 ├── LICENSE
 └── .gitignore
@@ -145,7 +176,6 @@ modelscope-image-gen-skill/
 │  Model: Z-Image-Turbo           │
 └─────────────────────────────────┘
 ```
-
 ![robotic-cat-cyberpunk-20260116-141457](https://img.ilovelinlin.top/docs/robotic-cat-cyberpunk-20260116-141457.jpg)
 *Generated in ~19 seconds | 929 KB*
 
@@ -223,21 +253,50 @@ MIT License - Free to use and modify
 
 ### ⭐ 方式 A：AI 一键安装（推荐）**最简单**
 
-直接告诉 Claude：
+**直接告诉 Claude**：
 
 ```
-请帮我下载并安装 modelscope-image-gen 技能：
+请帮我安装 modelscope-image-gen-skill，https://github.com/ZhaoSeven7/modelscope-image-gen-skill
+我的API密钥是ms-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+```
+
+**就这样！** Claude 会阅读下面的技术说明并完成所有操作。
+
+---
+
+#### 📋 给 AI 看的技术说明（必读）
+
+请按照以下步骤安装 modelscope-image-gen-skill：
+
+**1. 下载项目**：
+```
 https://github.com/ZhaoSeven7/modelscope-image-gen-skill
-
-然后在配置文件中添加我的 ModelScope API 密钥。
-我的 API 密钥是：ms-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ```
 
-**就这样！** Claude 会自动处理所有事情：
-- ✅ 下载项目
-- ✅ 安装到正确位置
-- ✅ 配置您的 API 密钥
-- ✅ 验证安装
+**2. 验证项目结构**：
+根目录应该包含以下文件：
+```
+modelscope-image-gen-skill/
+├── SKILL.md              # Claude 技能定义
+├── config.json           # 配置文件
+├── README.md             # 文档说明
+└── LICENSE
+```
+
+**3. 安装到 Claude 技能目录**：
+```
+目标位置：~/.claude/skills/modelscope-image-gen/
+```
+将所有技能文件（SKILL.md、config.json、config.example.json）复制到该位置。
+
+**4. 配置 API 密钥**：
+在 `~/.claude/skills/modelscope-image-gen/config.json` 中，将：
+`YOUR_MODELSCOPE_API_KEY_HERE` 替换为用户的 API 密钥
+
+**5. 报告完成**：
+确认安装成功并显示文件结构。
+
+> 💡 **注意**：项目使用扁平结构，SKILL.md 在根目录，不在子文件夹中。
 
 ### 📦 方式 B：手动安装（2 步）
 
@@ -259,16 +318,17 @@ git clone https://github.com/ZhaoSeven7/modelscope-image-gen-skill.git modelscop
 **Windows 用户**（Claude Code）：
 1. 从 [GitHub](https://github.com/ZhaoSeven7/modelscope-image-gen-skill) 下载 ZIP
 2. 解压到：`C:\Users\你的用户名\.claude\skills\modelscope-image-gen`
+3. 确保文件在根目录：SKILL.md、config.json
 
 **Claude.ai**：
 1. 从 GitHub 下载 ZIP
 2. 解压到文件夹
 3. 打开 Claude.ai → 设置 → 技能 → 上传自定义技能
-4. 选择解压后的 `skill` 文件夹
+4. 选择所有技能文件（SKILL.md、config.json）从解压文件夹中
 
 **第 2 步：配置**
 
-打开 `config.json` 并将 `YOUR_MODELSCOPE_API_KEY_HERE` 替换为您的 API 密钥：
+打开 `config.json`（在安装位置）并将 `YOUR_MODELSCOPE_API_KEY_HERE` 替换为您的 API 密钥：
 
 **Windows**：右键 config.json → 打开方式 → 记事本 → 编辑 → 保存
 
@@ -314,10 +374,8 @@ Generate a picture of a golden cat
 
 ```
 modelscope-image-gen-skill/
-├── skill/
-│   ├── SKILL.md              # Claude 技能定义
-│   ├── config.json           # 配置文件（在此添加您的 API 密钥）
-│   └── config.example.json   # 配置模板（备份）
+├── SKILL.md                  # Claude 技能定义
+├── config.json               # 配置文件（在此添加您的 API 密钥）
 ├── README.md                 # 本文件
 ├── LICENSE
 └── .gitignore
@@ -335,6 +393,7 @@ modelscope-image-gen-skill/
 └─────────────────────────────────┘
 ```
 ![robotic-cat-cyberpunk-20260116-141457](https://img.ilovelinlin.top/docs/robotic-cat-cyberpunk-20260116-141457.jpg)
+
 *约 19 秒生成 | 929 KB*
 
 > 💡 **提示**：本地使用此技能时，实际生成的图像会保存到您的 vault 中。上图仅用于展示生成速度和质量。
