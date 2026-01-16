@@ -88,6 +88,7 @@ modelscope-image-gen-skill/
 │  Model: Z-Image-Turbo           │
 └─────────────────────────────────┘
 ```
+![robotic-cat-cyberpunk-20260116-141457.jpg](https://img.ilovelinlin.top/docs/robotic-cat-cyberpunk-20260116-141457.jpg)
 
 *Generated in ~19 seconds | 929 KB*
 
@@ -208,7 +209,7 @@ modelscope-image-gen-skill/
 │   模型: Z-Image-Turbo           │
 └─────────────────────────────────┘
 ```
-
+![robotic-cat-cyberpunk-20260116-141457](https://img.ilovelinlin.top/docs/robotic-cat-cyberpunk-20260116-141457.jpg)
 *约 19 秒生成 | 929 KB*
 
 > 💡 **提示**：本地使用此技能时，实际生成的图像会保存到您的 vault 中。上图仅用于展示生成速度和质量。
