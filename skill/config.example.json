@@ -1,5 +1,0 @@
-{
-  "api_key": "YOUR_MODELSCOPE_API_KEY_HERE",
-  "output_dir": "./generated-images",
-  "timeout": 60
-}
