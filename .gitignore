@@ -1,0 +1,22 @@
+# Ignore user configuration
+config.json
+
+# Ignore generated images
+generated-images/
+*.png
+*.jpg
+*.jpeg
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore logs
+*.log
