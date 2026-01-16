@@ -1,8 +1,8 @@
 # 🎨 Claude AI Image Generator
 
-[![[0d356e72fcfaae41be0d7adf6fad1c69_MD5.svg]]](LICENSE)
-[![[a1720128ec364d402c5af22ed69b3f67_MD5.svg]]](https://claude.ai/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+[![Claude](https://img.shields.io/badge/Claude-Skills-blue.svg)](https://claude.ai/)
 ---
 
 **[English](#english) | [中文](#中文)**
