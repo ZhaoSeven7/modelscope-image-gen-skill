@@ -200,9 +200,18 @@ modelscope-image-gen-skill/
 ## 🖼️ 示例
 
 **提示词**："A cute robotic cat, cyberpunk style, holographic screens, highly detailed"
-结果示例：
-![[4c4a9ccda1c7f38f5f2b91a03425c58a_MD5.png]]
+
+```
+┌─────────────────────────────────┐
+│   [图片约 19 秒生成]            │
+│   大小: 929 KB                   │
+│   模型: Z-Image-Turbo           │
+└─────────────────────────────────┘
+```
+
 *约 19 秒生成 | 929 KB*
+
+> 💡 **提示**：本地使用此技能时，实际生成的图像会保存到您的 vault 中。上图仅用于展示生成速度和质量。
 
 ## ⚙️ 配置选项
 
